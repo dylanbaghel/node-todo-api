@@ -5,8 +5,8 @@ const app = express();
 
 //CUSTOM FILES
 const {mongoose} = require('./db/mongoose');
-const {Todo} = require('./db/todo');
-const {User} = require('./db/todo');
+const {Todo} = require('./models/todo');
+const {User} = require('./models/user');
 
 //MIDDLEWARE
 app.use(express.json());
@@ -31,3 +31,5 @@ app.post('/todos', (req, res) => {
 
 
 app.listen(3000, () => console.log('Server At 3000'));
+
+module.exports = {app};
