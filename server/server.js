@@ -1,7 +1,7 @@
 //THIRD PARTY MODULES
 const express = require('express');
 const app = express();
-
+const {ObjectID} = require('mongodb'); 
 
 //CUSTOM FILES
 const {mongoose} = require('./db/mongoose');
@@ -37,6 +37,25 @@ app.get('/todos', (req, res) => {
     })
 });
 
+//GET - ROUTE /todos/:id - LIST INDIVIDUAL TODO
+app.get('/todos/:id', (req, res) => {
+
+    const id = req.params.id;
+
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send('Id Not Found');
+    }
+
+    Todo.findById(id).then((todo) => {
+        if(!todo) {
+            return res.status(404).send();
+        }
+        res.status(200).send({todo});
+    })
+    .catch((e) => {
+        res.status(400).send(e);
+    });
+});
 
 
 app.listen(3000, () => console.log('Server At 3000'));
