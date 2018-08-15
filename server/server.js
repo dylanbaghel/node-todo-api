@@ -8,6 +8,9 @@ const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
 
+//PORT
+const PORT = process.env.PORT || 3000;
+
 //MIDDLEWARE
 app.use(express.json());
 
@@ -58,6 +61,6 @@ app.get('/todos/:id', (req, res) => {
 });
 
 
-app.listen(3000, () => console.log('Server At 3000'));
+app.listen(PORT, () => console.log(`Server Started At ${PORT} PORT`));
 
 module.exports = {app};
