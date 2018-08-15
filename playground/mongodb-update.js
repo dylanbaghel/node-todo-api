@@ -23,7 +23,7 @@ MongoClient.connect(url, { useNewUrlParser: true}, (err, client) => {
         _id: new ObjectID('5b710da440ac3800f094a7c5')
     }, {
         $set: {
-            name: "Abhishek Baghel"
+            name: "Abhishek"
         },
         $inc: {
             age: 1
