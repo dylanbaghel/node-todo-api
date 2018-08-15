@@ -28,6 +28,15 @@ app.post('/todos', (req, res) => {
     })
 });
 
+//GET - ROUTE /todos - LIST ALL TODOS
+app.get('/todos', (req, res) => {
+    Todo.find().then((todos) => {
+        res.status(200).send({todos});
+    }).catch((e) => {
+        res.status(400).send(e);
+    })
+});
+
 
 
 app.listen(3000, () => console.log('Server At 3000'));
