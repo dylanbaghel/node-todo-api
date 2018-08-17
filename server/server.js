@@ -1,3 +1,5 @@
+require('./config/config');
+
 //THIRD PARTY MODULES
 const express = require('express');
 const app = express();
@@ -10,7 +12,7 @@ const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
 
 //PORT
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 //MIDDLEWARE
 app.use(express.json());
