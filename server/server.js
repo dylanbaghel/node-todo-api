@@ -3,13 +3,13 @@ require('./config/config');
 //THIRD PARTY MODULES
 const express = require('express');
 const app = express();
-const {ObjectID} = require('mongodb');
-const _ = require('lodash'); 
+const { ObjectID } = require('mongodb');
+const _ = require('lodash');
 
 //CUSTOM FILES
-const {mongoose} = require('./db/mongoose');
-const {Todo} = require('./models/todo');
-const {User} = require('./models/user');
+const { mongoose } = require('./db/mongoose');
+const { Todo } = require('./models/todo');
+const { User } = require('./models/user');
 
 //PORT
 const PORT = process.env.PORT;
@@ -29,15 +29,15 @@ app.post('/todos', (req, res) => {
     todo.save().then((todo) => {
         res.status(200).send(todo);
     })
-    .catch((e) => {
-        res.status(400).send(e);
-    })
+        .catch((e) => {
+            res.status(400).send(e);
+        })
 });
 
 //GET - ROUTE /todos - LIST ALL TODOS
 app.get('/todos', (req, res) => {
     Todo.find().then((todos) => {
-        res.status(200).send({todos});
+        res.status(200).send({ todos });
     }).catch((e) => {
         res.status(400).send(e);
     })
@@ -53,14 +53,14 @@ app.get('/todos/:id', (req, res) => {
     }
 
     Todo.findById(id).then((todo) => {
-        if(!todo) {
+        if (!todo) {
             return res.status(404).send();
         }
-        res.status(200).send({todo});
+        res.status(200).send({ todo });
     })
-    .catch((e) => {
-        res.status(400).send(e);
-    });
+        .catch((e) => {
+            res.status(400).send(e);
+        });
 });
 
 //DELETE - ROUTE /todos/:id - REMOVE PARTICULAR TODO
@@ -72,10 +72,10 @@ app.delete('/todos/:id', (req, res) => {
     }
 
     Todo.findByIdAndRemove(id).then((todo) => {
-        if(!todo) {
+        if (!todo) {
             return res.status(404).send();
         }
-        res.status(200).send({todo});
+        res.status(200).send({ todo });
     }).catch((e) => {
         res.status(400).send(e);
     });
@@ -97,17 +97,31 @@ app.patch('/todos/:id', (req, res) => {
         body.completedAt = null;
     }
 
-    Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
+    Todo.findByIdAndUpdate(id, { $set: body }, { new: true }).then((todo) => {
         if (!todo) {
             return res.status(404).send();
         }
 
-        res.status(200).send({todo});
+        res.status(200).send({ todo });
     }).catch((e) => {
         res.status(400).send(e);
     })
 });
 
+//POST - ROUTE /users - CREATE NEW USER
+app.post('/users', (req, res) => {
+    const body = _.pick(req.body, ['email', 'password']);
+    let user = new User(body);
+
+    user.save().then(() => {
+        return user.generateAuthToken();
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
+    });
+});
+
 app.listen(PORT, () => console.log(`Server Started At ${PORT} PORT`));
 
-module.exports = {app};
+module.exports = { app };
