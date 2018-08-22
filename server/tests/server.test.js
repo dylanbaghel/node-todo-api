@@ -1,3 +1,4 @@
+
 const expect = require('expect');
 const request = require('supertest');
 const {ObjectID} = require('mongodb');
@@ -20,9 +21,9 @@ const todos = [
 ];
 
 beforeEach((done) => {
-    Todo.remove().then(() => {
+    Todo.remove({}).then(() => {
         return Todo.insertMany(todos);
-    }).then(() => done());
+    }).then(() => done()).catch((e) => done(e));
 });
 
 describe('POST /todos', () => {
