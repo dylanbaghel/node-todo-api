@@ -18,7 +18,9 @@ const PORT = process.env.PORT;
 
 //MIDDLEWARE
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+	exposedHeaders: ['Content-Length', 'x-auth'],
+}));
 
 //ROUTES
 
