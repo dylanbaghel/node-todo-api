@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 const { ObjectID } = require('mongodb');
 const _ = require('lodash');
+const cors = require('cors');
 
 //CUSTOM FILES
 const { mongoose } = require('./db/mongoose');
@@ -17,7 +18,7 @@ const PORT = process.env.PORT;
 
 //MIDDLEWARE
 app.use(express.json());
-
+app.use(cors());
 
 //ROUTES
 
